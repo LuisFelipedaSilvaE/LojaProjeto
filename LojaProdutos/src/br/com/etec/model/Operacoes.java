@@ -73,34 +73,44 @@ public class Operacoes {
 		alert.setContentText(message);
 		alert.showAndWait();
 	}
+		
+	//----------------------------------------------------------------
+	@FXML
+	private void fecharTelaLogin(ActionEvent event) {
+		acpPalco = (Stage) btnFechar.getScene().getWindow();
+		acpPalco.close();	
+	}
 	
-    private boolean verificarUsuarioSenha(String usuario, String senha) throws SQLException {
-        Connection conexao = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        boolean usuarioValido = false;
+	//----------------------------------------------------------------
 
-        try {
-            conexao = Conexao.conectar();
-            String sql = "SELECT * FROM tabelalogin WHERE usuario = ? AND senha = ?";
-            stmt = conexao.prepareStatement(sql);
-            stmt.setString(1, usuario);
-            stmt.setString(2, senha);
-            rs = stmt.executeQuery();
+	 private boolean verificarUsuarioSenha(String usuario, String senha) throws SQLException {
+	        Connection conexao = null;
+	        PreparedStatement stmt = null;
+	        ResultSet rs = null;
+	        boolean usuarioValido = false;
 
-            if (rs.next()) {
-                usuarioValido = true;
-            }
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-            Conexao.fechar(conexao);
-        }
+	        try {
+	            conexao = ClasseConexao.conectar();
+	            String sql = "SELECT * FROM tabelasenha WHERE usuario = ? AND senha = ?";
+	            stmt = conexao.prepareStatement(sql);
+	            stmt.setString(1, usuario);
+	            stmt.setString(2, senha);
+	            rs = stmt.executeQuery();
 
-        return usuarioValido;
-    }
+	            if (rs.next()) {
+	                usuarioValido = true;
+	            }
+	        } finally {
+	            if (rs != null) {
+	                rs.close();
+	            }
+	            if (stmt != null) {
+	                stmt.close();
+	            }
+	            ClasseConexao.fechar(conexao);
+	        }
+
+	        return usuarioValido;
+	    }
+	
 }
